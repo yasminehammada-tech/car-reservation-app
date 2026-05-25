@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Reservation — Accueil</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">🚗 Car Reservation</div>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="reservations.html">Mes Réservations</a>
+            <span id="userInfo"></span>
+            <a href="login.html" id="loginBtn" class="btn-nav">Connexion</a>
+            <a href="#" id="logoutBtn" class="btn-nav hidden">Déconnexion</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Réservez votre voiture en ligne</h1>
+        <p>Simple, rapide et disponible 24h/24</p>
+    </div>
+
+    <!-- Voitures -->
+    <div class="section">
+        <h2 class="section-title">Nos Voitures Disponibles</h2>
+
+        <!-- Recherche -->
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="🔍 Rechercher par marque ou modèle...">
+            <input type="number" id="prixMax" placeholder="Prix max/jour (MAD)">
+        </div>
+
+        <div id="voituresGrid" class="cars-grid">
+            <p class="loading">Chargement des voitures...</p>
+        </div>
+    </div>
+
+    <script>
+        // Vérifier connexion
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            document.getElementById('userInfo').textContent = '👤 ' + user.nom;
+            document.getElementById('loginBtn').classList.add('hidden');
+            document.getElementById('logoutBtn').classList.remove('hidden');
+        }
+
+        // Déconnexion
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+
+        // Charger les voitures
+        let toutesVoitures = [];
+
+        async function chargerVoitures() {
+            try {
+                const response = await fetch('http://localhost:3000/api/voitures');
+                toutesVoitures = await response.json();
+                afficherVoitures(toutesVoitures);
+            } catch (err) {
+                document.getElementById('voituresGrid').innerHTML = 
+                    '<p class="error">❌ Impossible de charger les voitures</p>';
+            }
+        }
+
+        function afficherVoitures(voitures) {
+            const grid = document.getElementById('voituresGrid');
+            if (voitures.length === 0) {
+                grid.innerHTML = '<p>Aucune voiture trouvée</p>';
+                return;
+            }
+            grid.innerHTML = voitures.map(v => `
+                <div class="car-card">
+                    <div class="car-image">🚗</div>
+                    <div class="car-info">
+                        <h3>${v.marque} ${v.modele}</h3>
+                        <p>📅 Année : ${v.annee}</p>
+                        <p>💰 Prix : ${v.prix_jour} MAD/jour</p>
+                        <p class="${v.disponible ? 'disponible' : 'indisponible'}">
+                            ${v.disponible ? '✅ Disponible' : '❌ Indisponible'}
+                        </p>
+                        ${v.disponible && user ? 
+                            `<button class="btn-primary" onclick="reserver(${v.id})">Réserver</button>` : 
+                            !user ? `<a href="login.html" class="btn-primary">Connectez-vous</a>` : ''
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Recherche
+        document.getElementById('search').addEventListener('input', filtrer);
+        document.getElementById('prixMax').addEventListener('input', filtrer);
+
+        function filtrer() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const prixMax = document.getElementById('prixMax').value;
+            let resultats = toutesVoitures.filter(v => {
+                const matchSearch = v.marque.toLowerCase().includes(search) || 
+                                   v.modele.toLowerCase().includes(search);
+                const matchPrix = prixMax ? v.prix_jour <= prixMax : true;
+                return matchSearch && matchPrix;
+            });
+            afficherVoitures(resultats);
+        }
+
+        // Réserver
+        function reserver(voitureId) {
+            window.location.href = `reservations.html?voiture=${voitureId}`;
+        }
+
+        chargerVoitures();
+    </script>
+</body>
+</html>
