@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription — Car Reservation</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <div class="logo">🚗 Car Reservation</div>
+            <h2>Créer un compte</h2>
+            <p class="subtitle">Rejoignez-nous et réservez votre voiture</p>
+
+            <div id="message" class="message hidden"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="nom" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="votre@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" id="confirm" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">S'inscrire</button>
+            </form>
+
+            <p class="link">Déjà un compte ? <a href="login.html">Se connecter</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nom = document.getElementById('nom').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm').value;
+            const msg = document.getElementById('message');
+
+            if (password !== confirm) {
+                msg.className = 'message error';
+                msg.textContent = '❌ Les mots de passe ne correspondent pas';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nom, email, password })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    msg.className = 'message success';
+                    msg.textContent = '✅ Compte créé ! Redirection...';
+                    setTimeout(() => window.location.href = 'login.html', 1500);
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = '❌ ' + data.message;
+                }
+            } catch (err) {
+                msg.className = 'message error';
+                msg.textContent = '❌ Erreur de connexion au serveur';
+            }
+        });
+    </script>
+</body>
+</html>
