@@ -3,21 +3,21 @@
    Lamborghini x Rolls Royce x Ferrari Style
 =================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap');
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Montserrat', sans-serif;
-}
+font-family:'DM Sans', sans-serif;}
 
 body{
     background:#050505;
     color:white;
     overflow-x:hidden;
 }
-
+.nav-logo, .logo, h2, .section-title, .hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
 /* =========================
    SCROLLBAR
 ========================= */
@@ -666,4 +666,120 @@ h2{
 .form-reservation h3 {
     margin-bottom: 20px;
     color: #1a1a2e;
+}
+/* ── POLICE ── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
+.nav-logo, .logo, h2, .section-title, .hero h1,
+.car-info h3, .form-reservation h3, .res-info h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ── LOGO NAVBAR ── */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+}
+
+/* ── INPUTS : correction fond blanc au remplissage ── */
+.form-group input,
+.form-group select {
+    background: rgba(255,255,255,0.06) !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    caret-color: #f5d38a;
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+    -webkit-text-fill-color: white !important;
+    border-color: rgba(245,211,138,0.4) !important;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c8a96e;
+    font-weight: 500;
+}
+
+/* ── BOUTON amélioré ── */
+.btn-primary {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(200,169,110,0.2);
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 35px rgba(245,211,138,0.35);
+}
+
+/* ── CARDS RÉSERVATIONS dans le thème sombre ── */
+.reservation-card {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(200,169,110,0.15) !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s;
+}
+
+.reservation-card:hover {
+    border-color: rgba(200,169,110,0.35) !important;
+}
+
+.res-info h3 { color: #f5d38a !important; }
+.res-info p  { color: rgba(255,255,255,0.6) !important; }
+
+.statut.active    { background: rgba(102,255,153,0.1) !important; color: #66ff99 !important; border: 1px solid rgba(102,255,153,0.2) !important; }
+.statut.annulée   { background: rgba(255,77,109,0.1)  !important; color: #ff4d6d !important; border: 1px solid rgba(255,77,109,0.2)  !important; }
+.statut.terminée  { background: rgba(255,255,255,0.06) !important; color: rgba(255,255,255,0.5) !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+
+.btn-annuler {
+    background: transparent !important;
+    border: 1px solid rgba(255,77,109,0.4) !important;
+    color: #ff4d6d !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: 0.3s !important;
+}
+
+.btn-annuler:hover {
+    background: rgba(255,77,109,0.1) !important;
+    border-color: #ff4d6d !important;
+}
+
+/* ── FORM RESERVATION dans le thème sombre ── */
+.form-reservation {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(200,169,110,0.2) !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+}
+
+.form-reservation h3 { color: #f5d38a !important; }
+
+.voiture-selected {
+    background: rgba(200,169,110,0.08) !important;
+    border: 1px solid rgba(200,169,110,0.2) !important;
+    border-radius: 10px !important;
+    color: white !important;
+}
+
+.voiture-selected h4 { color: white !important; }
+.voiture-selected p  { color: #c8a96e !important; }
+
+.prix-total {
+    background: rgba(102,255,153,0.08) !important;
+    color: #66ff99 !important;
+    border: 1px solid rgba(102,255,153,0.2) !important;
+    border-radius: 10px !important;
 }
