@@ -81,34 +81,37 @@
             }
         }
 
-       function afficherVoitures(voitures) {
-    const grid = document.getElementById('voituresGrid');
-    if (voitures.length === 0) {
-        grid.innerHTML = '<p>Aucune voiture trouvée</p>';
-        return;
-    }
-    grid.innerHTML = voitures.map(v => `
-        <div class="car-card">
-            <div class="car-image">🚗</div>
-            <div class="car-info">
-                <h3>${v.marque} ${v.modele}</h3>
-                <p>📅 Année : ${v.annee}</p>
-                <p>💰 Prix : ${v.prix_jour} MAD/jour</p>
-                <p class="${v.disponible ? 'disponible' : 'indisponible'}">
-                    ${v.disponible ? '✅ Disponible' : '❌ Indisponible'}
-                </p>
-                ${v.disponible && user ? 
-                    `<button class="btn-primary" 
-                        onclick="window.location.href='reservations.html?voiture=${v.id}'">
-                        Réserver
-                    </button>` : 
-                    !user ? 
-                    `<a href="login.html" class="btn-primary">Connectez-vous</a>` : ''
-                }
-            </div>
-        </div>
-    `).join('');
-}
+        function afficherVoitures(voitures) {
+            const grid = document.getElementById('voituresGrid');
+            if (voitures.length === 0) {
+                grid.innerHTML = '<p>Aucune voiture trouvée</p>';
+                return;
+            }
+            grid.innerHTML = voitures.map(v => `
+                <div class="car-card">
+                    <!-- التعديل هنا: كيقرا رابط الصورة من القاعدة، وإيلا مالقاهش كيدير Mercedes Brabus احتياطية -->
+                    <div class="car-image">
+                        <img src="${v.image_url}" alt="${v.marque} ${v.modele}">
+                    </div>
+                    <div class="car-info">
+                        <h3>${v.marque} ${v.modele}</h3>
+                        <p>📅 Année : ${v.annee}</p>
+                        <p>💰 Prix : ${v.prix_jour} MAD/jour</p>
+                        <p class="${v.disponible ? 'disponible' : 'indisponible'}">
+                            ${v.disponible ? '✅ Disponible' : '❌ Indisponible'}
+                        </p>
+                        ${v.disponible && user ? 
+                            `<button class="btn-primary" 
+                                onclick="window.location.href='reservations.html?voiture=${v.id}'">
+                                Réserver
+                            </button>` : 
+                            !user ? 
+                            `<a href="login.html" class="btn-primary">Connectez-vous</a>` : ''
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
 
         // Recherche
         document.getElementById('search').addEventListener('input', filtrer);
